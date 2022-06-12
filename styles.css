@@ -18,6 +18,18 @@ body {
   flex-direction: column;
 }
 
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.contenedor p {
+  margin: 10px;
+}
+
 p {
   all: unset;
   color: white;
@@ -25,7 +37,6 @@ p {
   font-size: 2rem;
   padding: 15px;
   box-shadow: 0px 0px 10000px -20px white;
-  margin: 40px;
   cursor: pointer;
 }
 
