@@ -142,7 +142,7 @@ const caracteresMasEspeciales = [
   "%",
 ];
 
-range.addEventListener("click", () => {
+range.addEventListener("change", () => {
   console.log(range.value);
   labelRange.innerHTML = range.value;
 });
