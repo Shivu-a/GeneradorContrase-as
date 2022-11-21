@@ -47,5 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   range.addEventListener("input", () => {
     labelRange.innerHTML = range.value;
+    generarContraseña();
   });
 });
