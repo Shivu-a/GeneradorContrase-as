@@ -37,8 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   textArea.addEventListener("click", () => {
-    navigator.clipboard.writeText(textArea.innerHTML);
-    alert("Successfully copied password");
+    navigator.clipboard.writeText(textArea.innerHTML).then(
+      () => {
+        alert("Copied password to the clipboard");
+      },
+      () => {
+        alert("Could not copy the password to the clipboard");
+      }
+    );
   });
 
   checkbox.addEventListener("change", () => {
