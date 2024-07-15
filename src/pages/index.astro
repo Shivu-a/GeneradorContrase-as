@@ -1,115 +1,27 @@
 ---
+import CharacterTypeSelector from "../components/CharacterTypeSelector.astro";
+import GenerateButton from "../components/GenerateButton.astro";
+import OutputPass from "../components/OutputPass.astro";
+import PasswordStats from "../components/PasswordStats.astro";
+import Slider from "../components/Slider.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Password Generator">
-  <main class="m-auto p-4 max-w-4xl text-xl leading-6 font-mono text-custom">
+  <main
+    class="m-auto p-4 w-full max-w-2xl text-xl leading-6 font-mono text-custom border-1 border-foreground"
+  >
     <h1 class="text-4xl font-semibold">Password Generator</h1>
-    <h2 class="text-xl text-custom-muted">
+    <h2 class="text-sm text-custom-muted mb-4">
       Generate a secure password customized for your needs!
     </h2>
-    <div
-      class="grid grid-cols-1 items-center justify-items-center sm:grid-cols-4 grid-flow-row sm:grid-rows-3"
-    >
-      <div class="sm:col-span-4 w-full relative mb-6 my-4">
-        <label
-          class="block mb-2 text-sm font-medium text-custom"
-          for="passLength"
-          >Length: <span id="cantChars">28</span>
-        </label>
-
-        <input
-          class="w-full h-2 bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700"
-          oninput="sliderChange(event)"
-          type="range"
-          name="passLength"
-          id="passLength"
-          min="6"
-          max="50"
-        />
-        <span
-          class="select-none text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6"
-          >6</span
-        >
-        <span
-          class="select-none text-sm text-gray-500 dark:text-gray-400 absolute start-1/2 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6"
-          >28</span
-        >
-        <span
-          class="select-none text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6"
-          >50</span
-        >
-      </div>
-      <label class="flex justify-center items-center gap-2" for="uppercase"
-        >Uppercase
-        <input
-          class="size-4 text-blue-600 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-          type="checkbox"
-          onchange="changePreferences()"
-          name="uppercase"
-          id="uppercase"
-          checked
-        />
-      </label>
-      <label class="flex justify-center items-center gap-2" for="lowercase"
-        >Lowercase
-        <input
-          class="size-4 text-blue-600 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-          type="checkbox"
-          onchange="changePreferences()"
-          name="lowercase"
-          id="lowercase"
-          checked
-        />
-      </label>
-      <label class="flex justify-center items-center gap-2" for="number"
-        >Numbers
-        <input
-          class="size-4 text-blue-600 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-          type="checkbox"
-          onchange="changePreferences()"
-          name="number"
-          id="number"
-          checked
-        />
-      </label>
-      <label class="flex justify-center items-center gap-2" for="special"
-        >Special
-        <input
-          class="size-4 text-blue-600 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-          type="checkbox"
-          onchange="changePreferences()"
-          name="special"
-          id="special"
-          checked
-        />
-      </label>
-      <button
-        class="sm:col-span-4 w-full bg-primary hover:bg-primary-hover font-medium p-2"
-        onclick="generate()">Generate</button
-      >
+    <div class="grid grid-cols-1 gap-2 items-center grid-flow-row">
+      <OutputPass extraClass="row-start-1" />
+      <Slider extraClass="row-start-2" />
+      <CharacterTypeSelector extraClass="row-start-3" />
+      <PasswordStats extraClass="row-start-4" />
+      <GenerateButton extraClass="row-start-5 mt-4" />
     </div>
-
-    <div class="grid grid-cols-4 gap-2 max-w-full">
-      <p
-        class="w-full h-12 text-center col-span-3 flex items-center justify-center select-none text-nowrap overflow-hidden
-		hover:cursor-pointer border-foreground border-2"
-        id="generatedPass"
-        onclick="copyToClipboard()"
-      >
-      </p>
-      <button
-        class="bg-primary hover:bg-primary-hover"
-        onclick="copyToClipboard()"
-      >
-        Copy
-      </button>
-    </div>
-
-    <p class="text-pretty">How long to crack: <span id="crackTime"></span></p>
-    <p class="text-pretty">
-      Entropy: <span id="entropy"></span> bits
-    </p>
   </main>
 </Layout>
 
@@ -118,16 +30,6 @@ import Layout from "../layouts/Layout.astro";
   const LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
   const NUMBERS = "0123456789";
   const SPECIAL = "!@#$%^&*()-=_+[]{}|;:,.<>?/";
-
-  const TIME_UNITS = [
-    { unit: "centuries", value: 60 * 60 * 24 * 365 * 100 },
-    { unit: "decades", value: 60 * 60 * 24 * 365 * 10 },
-    { unit: "years", value: 60 * 60 * 24 * 365 },
-    { unit: "days", value: 60 * 60 * 24 },
-    { unit: "hours", value: 60 * 60 },
-    { unit: "minutes", value: 60 },
-    { unit: "seconds", value: 1 },
-  ];
 
   function generate() {
     if (!window.crypto || !window.crypto.getRandomValues) {
@@ -160,15 +62,20 @@ import Layout from "../layouts/Layout.astro";
     }
 
     document.getElementById("generatedPass").innerText = password;
-    document.getElementById("crackTime").innerText = calcCrackTime(
-      charLength,
-      passLen
-    );
+
+    const entropy = (passLen * Math.log2(charLength)).toFixed(1);
+    document.getElementById("entropy").innerText = entropy;
+
+    const { crack_times_display, score } = zxcvbn(password);
+
+    document.getElementById("crackTime").innerText =
+      crack_times_display.offline_fast_hashing_1e10_per_second;
+
+    document.getElementById("passwordScore").innerText = score;
   }
 
   function sliderChange(e) {
     document.getElementById("cantChars").innerText = e.target.value;
-    generate();
     changePreferences();
   }
 
@@ -190,7 +97,7 @@ import Layout from "../layouts/Layout.astro";
       JSON.stringify({ upp, low, num, special, len })
     );
 
-    generate();
+    // generate();
   }
 
   function loadPreferences() {
@@ -204,23 +111,6 @@ import Layout from "../layouts/Layout.astro";
     document.getElementById("special").checked = prefs.special;
     document.getElementById("passLength").value = prefs.len;
     document.getElementById("cantChars").innerText = prefs.len;
-  }
-
-  function calcCrackTime(symbolPool, length) {
-    const combinations = Math.pow(symbolPool, length);
-    const entropy = Math.fround(Math.log2(combinations)).toFixed(1);
-    document.getElementById("entropy").innerText = entropy;
-    const attempsPerSecond = 1e11; // <- 100 Billon/s
-    const seconds = combinations / attempsPerSecond;
-
-    for (const timeUnit of TIME_UNITS) {
-      const time = seconds / timeUnit.value;
-      if (time >= 1) {
-        return `${Math.round(time)} ${timeUnit.unit}`;
-      }
-    }
-
-    return "Less than a second";
   }
 
   document.addEventListener("DOMContentLoaded", () => {
