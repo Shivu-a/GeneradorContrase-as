@@ -13,7 +13,7 @@ import Layout from "../layouts/Layout.astro";
   <Info />
   <InfoModal />
   <main
-    class="m-auto p-4 w-full max-w-2xl text-xl leading-6 font-mono text-custom border-1 border-foreground"
+    class="mt-14 sm:mt-0 p-4 w-full max-w-2xl text-xl leading-6 font-mono text-custom border-1 border-foreground"
   >
     <h1 class="text-4xl font-semibold">Password Generator</h1>
     <h2 class="text-sm text-custom-muted mb-4">
@@ -120,5 +120,9 @@ import Layout from "../layouts/Layout.astro";
   document.addEventListener("DOMContentLoaded", () => {
     loadPreferences();
     generate();
+  });
+
+  document.addEventListener("keypress", (e) => {
+    if (e.code === "KeyR") generate();
   });
 </script>
