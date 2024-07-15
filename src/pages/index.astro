@@ -1,0 +1,124 @@
+---
+import CharacterTypeSelector from "../components/CharacterTypeSelector.astro";
+import GenerateButton from "../components/GenerateButton.astro";
+import Info from "../components/Info.astro";
+import InfoModal from "../components/InfoModal.astro";
+import OutputPass from "../components/OutputPass.astro";
+import PasswordStats from "../components/PasswordStats.astro";
+import Slider from "../components/Slider.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Password Generator">
+  <Info />
+  <InfoModal />
+  <main
+    class="m-auto p-4 w-full max-w-2xl text-xl leading-6 font-mono text-custom border-1 border-foreground"
+  >
+    <h1 class="text-4xl font-semibold">Password Generator</h1>
+    <h2 class="text-sm text-custom-muted mb-4">
+      Generate a secure password customized for your needs!
+    </h2>
+    <div class="grid grid-cols-1 gap-2 items-center grid-flow-row">
+      <OutputPass extraClass="row-start-1" />
+      <Slider extraClass="row-start-2" />
+      <CharacterTypeSelector extraClass="row-start-3" />
+      <PasswordStats extraClass="row-start-4" />
+      <GenerateButton extraClass="row-start-5 mt-4" />
+    </div>
+  </main>
+</Layout>
+
+<script is:inline>
+  const UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+  const NUMBERS = "0123456789";
+  const SPECIAL = "!@#$%^&*()-=_+[]{}|;:,.<>?/";
+
+  function generate() {
+    if (!window.crypto || !window.crypto.getRandomValues) {
+      alert("Needed functionality is not present in your web browser");
+      return;
+    }
+    let password = "";
+    const passLen = parseInt(document.getElementById("passLength").value);
+
+    let chars = "";
+    if (document.getElementById("uppercase").checked) chars += UPPERCASE;
+    if (document.getElementById("lowercase").checked) chars += LOWERCASE;
+    if (document.getElementById("number").checked) chars += NUMBERS;
+    if (document.getElementById("special").checked) chars += SPECIAL;
+
+    if (!chars || chars.length === 0) {
+      alert("You need to choose at least one way to get a password");
+      return;
+    }
+
+    const charLength = chars.length;
+
+    for (let i = 0; i < passLen; i++) {
+      const ran = Math.floor(
+        (window.crypto.getRandomValues(new Uint32Array(1))[0] /
+          (0xffffffff + 1)) *
+          charLength
+      );
+      password += chars[ran];
+    }
+
+    document.getElementById("generatedPass").innerText = password;
+
+    const entropy = (passLen * Math.log2(charLength)).toFixed(1);
+    document.getElementById("entropy").innerText = entropy;
+
+    const { crack_times_display, score } = zxcvbn(password);
+
+    document.getElementById("crackTime").innerText =
+      crack_times_display.offline_fast_hashing_1e10_per_second;
+
+    document.getElementById("passwordScore").innerText = score;
+  }
+
+  function sliderChange(e) {
+    document.getElementById("cantChars").innerText = e.target.value;
+    changePreferences();
+  }
+
+  function copyToClipboard() {
+    const pass = document.getElementById("generatedPass").innerText;
+    navigator.clipboard.writeText(pass);
+    alert("Password copied to clipboard!");
+  }
+
+  function changePreferences() {
+    const upp = document.getElementById("uppercase").checked;
+    const low = document.getElementById("lowercase").checked;
+    const num = document.getElementById("number").checked;
+    const special = document.getElementById("special").checked;
+    const len = parseInt(document.getElementById("passLength").value);
+
+    localStorage.setItem(
+      "preferences",
+      JSON.stringify({ upp, low, num, special, len })
+    );
+
+    // generate();
+  }
+
+  function loadPreferences() {
+    let prefs = localStorage.getItem("preferences");
+    if (prefs === null) return;
+    prefs = JSON.parse(prefs);
+
+    document.getElementById("uppercase").checked = prefs.upp;
+    document.getElementById("lowercase").checked = prefs.low;
+    document.getElementById("number").checked = prefs.num;
+    document.getElementById("special").checked = prefs.special;
+    document.getElementById("passLength").value = prefs.len;
+    document.getElementById("cantChars").innerText = prefs.len;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPreferences();
+    generate();
+  });
+</script>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  extraClass?: string;
+}
+const { extraClass } = Astro.props;
+import XIcon from "./icons/XIcon.astro";
+---
+
+<button onclick="closeModal()" class={extraClass}>
+  <XIcon extraClass="size-10" />
+</button>
+
+<script is:inline>
+  function closeModal() {
+    document.getElementById("infoModal").classList.add("hidden");
+  }
+</script>

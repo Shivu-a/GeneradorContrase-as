@@ -1,0 +1,15 @@
+---
+import InfoIcon from "./icons/InfoIcon.astro";
+---
+
+<button onclick="showInformation()">
+  <InfoIcon
+    extraClass="absolute top-4 left-4 size-8 text-custom hover:cursor-pointer hover:text-foreground transition-all"
+  />
+</button>
+
+<script is:inline>
+  function showInformation() {
+    document.getElementById("infoModal").classList.remove("hidden");
+  }
+</script>

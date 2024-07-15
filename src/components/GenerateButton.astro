@@ -1,0 +1,12 @@
+---
+interface Props {
+  extraClass?: string;
+}
+
+const { extraClass } = Astro.props;
+---
+
+<button
+  class={`w-full bg-primary transition-all hover:bg-primary-hover font-medium p-2 ${extraClass}`}
+  onclick="generate()">Generate</button
+>

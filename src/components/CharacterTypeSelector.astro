@@ -1,0 +1,65 @@
+---
+interface Props {
+  extraClass?: string;
+}
+
+const { extraClass } = Astro.props;
+---
+
+<div class={`${extraClass}`}>
+  <p class="text-sm font-medium mb-2">Character Types:</p>
+  <div class="grid grid-cols-2 sm:grid-cols-4 justify-items-start gap-2">
+    <label
+      class="flex justify-start flex-row-reverse items-center gap-2"
+      for="uppercase"
+      >Uppercase
+      <input
+        class="accent-primary size-4 hover:cursor-pointer ring-offset-gray-800 focus:ring-2 default:bg-primary checked:bg-custom rounded"
+        type="checkbox"
+        onchange="changePreferences()"
+        name="uppercase"
+        id="uppercase"
+        checked
+      />
+    </label>
+    <label
+      class="flex justify-start flex-row-reverse items-center gap-2"
+      for="lowercase"
+      >Lowercase
+      <input
+        class="accent-primary size-4 hover:cursor-pointer ring-offset-gray-800 focus:ring-2 default:bg-primary checked:bg-custom rounded"
+        type="checkbox"
+        onchange="changePreferences()"
+        name="lowercase"
+        id="lowercase"
+        checked
+      />
+    </label>
+    <label
+      class="flex justify-start flex-row-reverse items-center gap-2"
+      for="number"
+      >Numbers
+      <input
+        class="accent-primary size-4 hover:cursor-pointer ring-offset-gray-800 focus:ring-2 default:bg-primary checked:bg-custom rounded"
+        type="checkbox"
+        onchange="changePreferences()"
+        name="number"
+        id="number"
+        checked
+      />
+    </label>
+    <label
+      class="flex justify-start flex-row-reverse items-center gap-2"
+      for="special"
+      >Special
+      <input
+        class="accent-primary size-4 hover:cursor-pointer ring-offset-gray-800 focus:ring-2 default:bg-primary checked:bg-custom rounded"
+        type="checkbox"
+        onchange="changePreferences()"
+        name="special"
+        id="special"
+        checked
+      />
+    </label>
+  </div>
+</div>
