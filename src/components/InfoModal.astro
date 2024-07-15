@@ -1,0 +1,86 @@
+---
+import CloseModal from "./CloseModal.astro";
+import CLink from "./CLink.astro";
+---
+
+<div
+  id="infoModal"
+  class="absolute bg-black/50 rounded w-full flex justify-center items-center h-screen hidden z-50 transition-all text-custom"
+>
+  <CloseModal
+    extraClass="absolute right-4 top-4 hover:text-foreground transition-all z-50"
+  />
+  <div
+    class="bg-background border-1 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] sm:max-w-3xl border-foreground px-4 py-2 text-pretty leading-6 overflow-y-scroll sm:overflow-hidden"
+  >
+    <h1 class="text-4xl font-semibold">How does it work?</h1>
+    <p class="text-sm">Let me explain...</p>
+    <h2 class="text-2xl font-semibold my-4">Password Generation</h2>
+    <p class="my-4 text-pretty">
+      The website uses <CLink
+        link="https://developer.mozilla.org/en-US/docs/Web/API/Crypto"
+        >the crypto web API</CLink
+      > to generate random values locally. With those values we choose from a set
+      of symbols (uppercase, lowercase, etc) and generate a random password. For
+      example, if we only take into account lowercase letters and the random generated
+      number is 6, the corresponding symbol for the first character would be the
+      letter <span class="bg-gray-700 text-white rounded px-2">F</span>. It does
+      this for the remaining length of the password.
+    </p>
+    <h2 class="text-2xl font-semibold mt-4">Password Strength calculation</h2>
+    <p class="text-sm mb-4">Password strength is complicated...</p>
+    <p class="my-4 text-pretty">
+      And I mean it. Strictly speaking, a random
+      <CLink link="https://en.wikipedia.org/wiki/Password_strength"
+        >password's strength</CLink
+      > is calculated via <CLink
+        link="https://en.wikipedia.org/wiki/Entropy_(information_theory)"
+        >entropy</CLink
+      > . In simple terms, it measures in bits how long it would take to <CLink
+        link="https://en.wikipedia.org/wiki/Brute-force_search"
+        >brute force</CLink
+      > the password. This means trying every possible combination until one of them
+      is correct and matches the password.
+    </p>
+    <p>
+      However, instead of bashing their skulls against the wall until one
+      combination is correct, password cracking software is more sophisticated.
+      It checks for words in dictionaries and commonly used passwords, as well
+      as patterns in the password itself. Then for the password strength we use
+      <CLink link="https://github.com/dropbox/zxcvbn">zxcvbn</CLink>, it's a
+      password strength estimation tool, that checks for all the things
+      mentioned above and gives a score between 0 to 4 in how secure it is and
+      estimates how long it would take to brute force it.
+    </p>
+    <p class="my-4">
+      You can read their article <CLink
+        link="https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation"
+        >here</CLink
+      > and learn more about password strength and how things work.
+    </p>
+    <h2 class="text-2xl font-semibold mt-4">
+      Passwords are too hard to remember
+    </h2>
+    <p class="text-sm mb-4">An unexpected challenge appears...</p>
+    <p class="my-4 text-pretty">
+      This is an after effect of password strengthening, you're giving up
+      rememberability for a more secure password. Worry not, this is easily
+      solvable with a <CLink
+        link="https://en.wikipedia.org/wiki/Password_manager"
+        >Password Manager</CLink
+      >, they store all your passwords behind one master password, so it only
+      has to remember one password to access all the others!
+    </p>
+    <p>
+      Althtough most of them are almost the same, I recommend doing a background
+      check on them. Some of them had security breaches before, so the security
+      risk can be high if the password manager you chose is not secure enough.
+      Personally I use <CLink link="https://bitwarden.com/">BitWarden</CLink>,
+      it's a really good password manager and if you don't want your passwords
+      to be hosted on their servers, you can always <CLink
+        link="https://bitwarden.com/blog/host-your-own-open-source-password-manager/"
+        >self-host an instance yourself</CLink
+      >.
+    </p>
+  </div>
+</div>

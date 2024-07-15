@@ -1,6 +1,8 @@
 ---
 import CharacterTypeSelector from "../components/CharacterTypeSelector.astro";
 import GenerateButton from "../components/GenerateButton.astro";
+import Info from "../components/Info.astro";
+import InfoModal from "../components/InfoModal.astro";
 import OutputPass from "../components/OutputPass.astro";
 import PasswordStats from "../components/PasswordStats.astro";
 import Slider from "../components/Slider.astro";
@@ -8,6 +10,8 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Password Generator">
+  <Info />
+  <InfoModal />
   <main
     class="m-auto p-4 w-full max-w-2xl text-xl leading-6 font-mono text-custom border-1 border-foreground"
   >
