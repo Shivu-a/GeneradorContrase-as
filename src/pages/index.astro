@@ -20,11 +20,11 @@ import Layout from "../layouts/Layout.astro";
       Generate a secure password customized for your needs!
     </h2>
     <div class="grid grid-cols-1 gap-2 items-center grid-flow-row">
-      <OutputPass extraClass="row-start-1" />
-      <Slider extraClass="row-start-2" />
-      <CharacterTypeSelector extraClass="row-start-3" />
-      <PasswordStats extraClass="row-start-4" />
-      <GenerateButton extraClass="row-start-5 mt-4" />
+      <OutputPass class:list={"row-start-1"} />
+      <Slider class:list={"row-start-2"} />
+      <CharacterTypeSelector class:list={"row-start-3"} />
+      <PasswordStats class:list={"row-start-4"} />
+      <GenerateButton class:list={"row-start-5 mt-4"} />
     </div>
   </main>
 </Layout>

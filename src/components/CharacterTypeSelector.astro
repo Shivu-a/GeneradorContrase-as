@@ -1,12 +1,8 @@
 ---
-interface Props {
-  extraClass?: string;
-}
 
-const { extraClass } = Astro.props;
 ---
 
-<div class={`${extraClass}`}>
+<div>
   <p class="text-sm font-medium mb-2">Character Types:</p>
   <div class="grid grid-cols-2 sm:grid-cols-4 justify-items-start gap-2">
     <label

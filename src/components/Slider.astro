@@ -1,12 +1,8 @@
 ---
-interface Props {
-  extraClass?: string;
-}
 
-const { extraClass } = Astro.props;
 ---
 
-<div class={`w-full relative mb-6 my-4 ${extraClass}`}>
+<div class={`w-full relative mb-6 my-4`}>
   <label class="block mb-2 text-sm font-medium text-custom" for="passLength"
     >Password Length: <span id="cantChars">28</span>
   </label>
