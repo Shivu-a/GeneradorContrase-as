@@ -35,19 +35,25 @@ import Layout from "../layouts/Layout.astro";
   const NUMBERS = "0123456789";
   const SPECIAL = "!@#$%^&*()-=_+[]{}|;:,.<>?/";
 
+  const $PASS_LENGTH_INPUT = document.getElementById("passLength");
+  const $LOWERCASE_CHECKBOX = document.getElementById("lowercase");
+  const $UPPERCASE_CHECKBOX = document.getElementById("uppercase");
+  const $NUMBERS_CHECKBOX = document.getElementById("number");
+  const $SPECIAL_CHECKBOX = document.getElementById("special");
+
   function generate() {
     if (!window.crypto || !window.crypto.getRandomValues) {
       alert("Needed functionality is not present in your web browser");
       return;
     }
     let password = "";
-    const passLen = parseInt(document.getElementById("passLength").value);
-
     let chars = "";
-    if (document.getElementById("uppercase").checked) chars += UPPERCASE;
-    if (document.getElementById("lowercase").checked) chars += LOWERCASE;
-    if (document.getElementById("number").checked) chars += NUMBERS;
-    if (document.getElementById("special").checked) chars += SPECIAL;
+
+    const passLen = parseInt($PASS_LENGTH_INPUT.value);
+    if ($UPPERCASE_CHECKBOX.checked) chars += UPPERCASE;
+    if ($LOWERCASE_CHECKBOX.checked) chars += LOWERCASE;
+    if ($NUMBERS_CHECKBOX.checked) chars += NUMBERS;
+    if ($SPECIAL_CHECKBOX.checked) chars += SPECIAL;
 
     if (!chars || chars.length === 0) {
       alert("You need to choose at least one way to get a password");
@@ -90,11 +96,11 @@ import Layout from "../layouts/Layout.astro";
   }
 
   function changePreferences() {
-    const upp = document.getElementById("uppercase").checked;
-    const low = document.getElementById("lowercase").checked;
-    const num = document.getElementById("number").checked;
-    const special = document.getElementById("special").checked;
-    const len = parseInt(document.getElementById("passLength").value);
+    const upp = $UPPERCASE_CHECKBOX.checked;
+    const low = $LOWERCASE_CHECKBOX.checked;
+    const num = $NUMBERS_CHECKBOX.checked;
+    const special = $SPECIAL_CHECKBOX.checked;
+    const len = parseInt($PASS_LENGTH_INPUT.value);
 
     localStorage.setItem(
       "preferences",
@@ -105,15 +111,15 @@ import Layout from "../layouts/Layout.astro";
   }
 
   function loadPreferences() {
-    let prefs = localStorage.getItem("preferences");
-    if (prefs === null) return;
-    prefs = JSON.parse(prefs);
+    const preferences = localStorage.getItem("preferences");
+    if (preferences === null) return;
+    const prefs = JSON.parse(preferences);
 
-    document.getElementById("uppercase").checked = prefs.upp;
-    document.getElementById("lowercase").checked = prefs.low;
-    document.getElementById("number").checked = prefs.num;
-    document.getElementById("special").checked = prefs.special;
-    document.getElementById("passLength").value = prefs.len;
+    $UPPERCASE_CHECKBOX.checked = prefs.upp;
+    $LOWERCASE_CHECKBOX.checked = prefs.low;
+    $NUMBERS_CHECKBOX.checked = prefs.num;
+    $SPECIAL_CHECKBOX.checked = prefs.special;
+    $PASS_LENGTH_INPUT.value = prefs.len;
     document.getElementById("cantChars").innerText = prefs.len;
   }
 
