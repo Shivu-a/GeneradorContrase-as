@@ -1,6 +1,6 @@
 # GeneradorPassword
 
-Secure Password Manager by sebadio
+Secure Password Generator by sebadio
 
 ## Link: https://sebadio.github.io/passgen/
 
